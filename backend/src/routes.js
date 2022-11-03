@@ -1,0 +1,41 @@
+const express = require('express');
+const { GetAllComments,CreateComment }= require('./controllers/Comment');
+const { CreatePost, GetAllPost, ToggleCase } = require('./controllers/Post');
+const { Login, SignUp, GetUSer, SendSms, Reset } = require('./controllers/User');
+const upload = require('./helpers/multer');
+const authorizationCheck = require('./middleware/auth');
+const { default: Validators } = require('./middleware/validation');
+
+const { SignInValidation,SignUpValidation,CommentValidation,PostValidation } = Validators
+
+const router = express.Router();
+
+/* User Routes */
+router.post('/login',SignInValidation,Login);
+
+router.post('/signup',SignUpValidation,SignUp);
+
+router.post('/forgot',Reset);
+
+router.post('/getInfo',GetUSer);
+
+/* Post Routes */
+router.post('/posts',
+    authorizationCheck,
+    upload.single('image'),
+    PostValidation,
+    CreatePost
+    )
+
+router.get('/posts',GetAllPost)
+router.patch('/posts/:id',authorizationCheck,ToggleCase)
+
+/* Comment Routes */
+router.post('/comments',authorizationCheck,CommentValidation,CreateComment)
+
+router.get('/comments',authorizationCheck,GetAllComments)
+
+/** SMS Route */
+router.post('/sms',SendSms)
+
+module.exports = router;

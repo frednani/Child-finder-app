@@ -1,0 +1,58 @@
+@local = http://localhost:2000
+@staging = https://deeye-backend.herokuapp.com/
+
+##
+GET {{local}}/posts
+phone_number: 250784824295
+
+###
+GET {{local}}/comments
+phone_number: 250784824295
+
+
+###
+POST {{local}}/signup
+Accept: application/json
+Content-Type: application/json
+
+{
+    "password" : "kamunikwi",
+    "phone_number":"0784824295",
+    "name":"Christophe K. Kwizera"
+}
+###
+POST {{local}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "password" : "kamunikwi",
+    "phone_number":"250784824295"
+}
+###
+POST {{local}}/getinfo
+Accept: application/json
+Content-Type: application/json
+
+{
+    "phone_number":"250784824295",
+}
+###
+POST {{local}}/sms
+Accept: application/json
+Content-Type: application/json
+
+{
+    "from":"0784824295",
+    "to":"250783554564"
+}
+
+###
+PATCH  {{local}}/posts/61b8f995733add83002592aa
+Accept: application/json
+Content-Type: application/json
+phone_number: 0784824295
+
+{
+    "status": "closed"
+}
